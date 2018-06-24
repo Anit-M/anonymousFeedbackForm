@@ -1,0 +1,54 @@
+#headBlock{
+	margin-top: 2%;
+	margin-left: 20%;
+	margin-right: 20%;
+}
+
+.insName{
+	font-family: Arial,Helvetica,sans-serif;
+	color: #4C7FA6;
+	font-weight: bold;
+}
+
+#helpName{
+	font-family: Arial,Helvetica,sans-serif;
+	font-weight: bold;
+/*	color: #4C7FA6;*/
+	margin-top: 5%;
+}
+
+#mainBlock{
+	margin-left: 30%;
+	margin-right: 30%;
+	/*border: 3px black;
+	border-style: inset;
+	border-color: #4C7FA6;*/
+	margin-top: 2%;
+	margin-bottom: 2%;
+	font-family: Arial,Helvetica,sans-serif;
+}
+
+input[type=submit] {
+    padding:5px 15px;
+    background:#ccc; 
+    border:0 none;
+    cursor:pointer;
+    border-radius: 6px;
+    width: 10em;
+    height: 2.5em;
+}
+
+input[type=button] {
+    padding:5px 15px; 
+    background:#ccc; 
+    border:0 none;
+    cursor:pointer;
+    border-radius: 6px;
+    width: 10em;
+    height: 2.5em;
+}
+
+#submitButton{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
