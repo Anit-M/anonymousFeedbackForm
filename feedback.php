@@ -1,3 +1,6 @@
+<?php
+	session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,11 +14,35 @@
 		    ob_end_flush();
 		    die();
 		}
+
+
 		if ($_SERVER["REQUEST_METHOD"] == "POST")
 		{
 			$selectedRating = $_POST["rating"];
-			redirect("success.php");
-		}
+			echo $selectedRating;
+
+			$servername = "localhost";
+			$user = "root";
+			$pass = "";
+			$dbname = "feedback";
+
+			$conn = mysqli_connect($servername, $user, $pass, $dbname);
+			if(!$conn)
+			{
+				die("Server Error");
+			}
+
+			$sqlQuery = "INSERT INTO userfeedback(first) VALUES ('".$selectedRating."')";	
+			$result = mysqli_query($conn, $sqlQuery);
+			if(!$result)
+			{
+				die('Server Error');
+			}
+			else
+			{
+				redirect('success.php');	
+			}
+			}
 	?>
 </head>
 <body>
@@ -28,6 +55,7 @@
 
 	<div id="mainBlock">
 		<form method="post" name="myform" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+			<p id="welcomeMessage">Welcome <?php echo $_SESSION["sessionUsername"] ?> </p>
 			<p> Give your Feedback 
 				<input type="radio" name="rating" value="5">5
 				<input type="radio" name="rating" value="4">4

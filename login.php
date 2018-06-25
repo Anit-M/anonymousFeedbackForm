@@ -1,3 +1,6 @@
+<?php
+	session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,6 +34,7 @@
 			}
 
 			$username = $_POST["userid"];
+			$_SESSION["sessionUsername"] = $username;
 			$userpass = $_POST["userpass"];
 			if(empty($username))
 			{
