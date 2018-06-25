@@ -75,5 +75,13 @@ input[type=button] {
     width: 100%;
     background-color: white;
     color: #4C7FA6;
+    font-weight: bold;
     text-align: center;
+}
+
+.errOut{
+	font-size: 16px;
+	color: red;
+	font-family: Arial,Helvetica,sans-serif;
+	font-weight: bold;
 }

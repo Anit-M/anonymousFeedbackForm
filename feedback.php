@@ -7,6 +7,7 @@
 	<title>Feedback Form</title>
 	<link rel="stylesheet" type="text/css" href="feedback.css">
 	<?php
+		$errOutput = "";
 		function redirect($url) 
 		{
 		    ob_start();
@@ -23,53 +24,62 @@
 	 	{
 	 		if ($_SERVER["REQUEST_METHOD"] == "POST")
 			{
-				$selectedRating = $_POST["rating"];
-				echo $selectedRating;
-
-				$servername = "localhost";
-				$user = "root";
-				$pass = "";
-				$dbname = "feedback";
-
-				$conn = mysqli_connect($servername, $user, $pass, $dbname);
-				if(!$conn)
+				if(!isset($_POST["rating"]))
 				{
-					die("Server Error");
-				}
-				$username = $_SESSION["sessionUsername"];
-				$query = "SELECT feedbackFlag FROM userinfo WHERE username='".$username."'";
-				$result = mysqli_query($conn, $query);
-				if(!result)
-				{
-					die('Error');
-				}
-
-				if($rowcount !== 1)
-				{
-					die('Error');
+					$errOutput = "Rating cannot be empty";
 				}
 				else
 				{
-					$row = mysqli_fetch_assoc($result);
-					$flag = $row["feedbackFlag"];
-				}
-				if($flag == 0)
-				{
-					$sqlQuery = "INSERT INTO userfeedback(first) VALUES ('".$selectedRating."');";	
-					$sqlQuery .= "INSERT INTO userinfo(feedbackFlag) VALUES ('1') WHERE username='".$username."'";
-					$result = mysqli_multi_query($conn, $sqlQuery);
+					$selectedRating = $_POST["rating"];
+
+					$servername = "localhost";
+					$user = "root";
+					$pass = "";
+					$dbname = "feedback";
+
+					$conn = mysqli_connect($servername, $user, $pass, $dbname);
+					if(!$conn)
+					{
+						die("Server Error");
+					}
+					$username = $_SESSION["sessionUsername"];
+					$query = "SELECT feedbackFlag FROM userinfo WHERE username='".$username."'";
+					$result = mysqli_query($conn, $query);
 					if(!$result)
 					{
-						die('Error');
+						$errOutput = "Submission Failed";
 					}
 					else
 					{
-						redirect('success.php');
+						$rowcount = mysqli_num_rows($result);
+						if($rowcount !== 1)
+						{
+							$errOutput = "Submission failed";
+						}
+						else
+						{
+							$row = mysqli_fetch_assoc($result);
+							$flag = $row["feedbackFlag"];
+							if($flag == 0)
+							{
+								$sqlQuery = "INSERT INTO userfeedback(first) VALUES ('".$selectedRating."');";	
+								$sqlQuery .= "UPDATE userinfo SET feedbackFlag=1 WHERE username='".$username."'";
+								$result = mysqli_multi_query($conn, $sqlQuery);
+								if(!$result)
+								{
+									die('Error');
+								}
+								else
+								{
+									redirect('success.php');
+								}
+							}
+							else
+							{
+								$errOutput = "Feedback already submitted, cannot be updated.";
+							}
+						}
 					}
-				}
-				else
-				{
-					die('Feedback Already given');
 				}
 			}
 		}
@@ -94,6 +104,7 @@
 			</p>
 			<div align="center" id="submitButton"><input type="submit" name=""></div>
 		</form>
+		<p id="errOut"><?php echo $errOutput ?></p>
 	</div>
 	<!-- <div align="center" id="submitButton"><input type="submit" name=""></div> -->
 	<div class="footer">User Logged In: <?php echo $_SESSION["sessionUsername"] ?> </div>
