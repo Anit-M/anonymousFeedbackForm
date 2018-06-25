@@ -152,7 +152,7 @@
     		}
     		else
     		{
-    			redirect('login.php');
+    			redirect('successRegistration.php');
     		}
     	}
 	}

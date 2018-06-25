@@ -26,7 +26,7 @@
 			{
 				if(!isset($_POST["rating"]))
 				{
-					$errOutput = "Rating cannot be empty";
+					$errOutput = "Feedback cannot be empty";
 				}
 				else
 				{
@@ -104,9 +104,13 @@
 			</p>
 			<div align="center" id="submitButton"><input type="submit" name=""></div>
 		</form>
-		<p id="errOut"><?php echo $errOutput ?></p>
+		<p class="errOut"><?php echo $errOutput ?></p>
 	</div>
 	<!-- <div align="center" id="submitButton"><input type="submit" name=""></div> -->
-	<div class="footer">User Logged In: <?php echo $_SESSION["sessionUsername"] ?> </div>
+	<div class="footer">
+		<form method="post" name="myform" action="logout.php">
+			User Logged In: <?php echo $_SESSION["sessionUsername"] ?> <br /> 
+			<input type="submit" name="" value="Logout?">
+		</div>
 </body>
 </html>
