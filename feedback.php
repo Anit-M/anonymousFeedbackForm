@@ -15,34 +15,64 @@
 		    die();
 		}
 
-
-		if ($_SERVER["REQUEST_METHOD"] == "POST")
-		{
-			$selectedRating = $_POST["rating"];
-			echo $selectedRating;
-
-			$servername = "localhost";
-			$user = "root";
-			$pass = "";
-			$dbname = "feedback";
-
-			$conn = mysqli_connect($servername, $user, $pass, $dbname);
-			if(!$conn)
+	 	if(!isset($_SESSION["sessionUsername"]))
+	 	{
+	 		redirect('login.php');
+	 	}
+	 	else
+	 	{
+	 		if ($_SERVER["REQUEST_METHOD"] == "POST")
 			{
-				die("Server Error");
-			}
+				$selectedRating = $_POST["rating"];
+				echo $selectedRating;
 
-			$sqlQuery = "INSERT INTO userfeedback(first) VALUES ('".$selectedRating."')";	
-			$result = mysqli_query($conn, $sqlQuery);
-			if(!$result)
-			{
-				die('Server Error');
+				$servername = "localhost";
+				$user = "root";
+				$pass = "";
+				$dbname = "feedback";
+
+				$conn = mysqli_connect($servername, $user, $pass, $dbname);
+				if(!$conn)
+				{
+					die("Server Error");
+				}
+				$username = $_SESSION["sessionUsername"];
+				$query = "SELECT feedbackFlag FROM userinfo WHERE username='".$username."'";
+				$result = mysqli_query($conn, $query);
+				if(!result)
+				{
+					die('Error');
+				}
+
+				if($rowcount !== 1)
+				{
+					die('Error');
+				}
+				else
+				{
+					$row = mysqli_fetch_assoc($result);
+					$flag = $row["feedbackFlag"];
+				}
+				if($flag == 0)
+				{
+					$sqlQuery = "INSERT INTO userfeedback(first) VALUES ('".$selectedRating."');";	
+					$sqlQuery .= "INSERT INTO userinfo(feedbackFlag) VALUES ('1') WHERE username='".$username."'";
+					$result = mysqli_multi_query($conn, $sqlQuery);
+					if(!$result)
+					{
+						die('Error');
+					}
+					else
+					{
+						redirect('success.php');
+					}
+				}
+				else
+				{
+					die('Feedback Already given');
+				}
 			}
-			else
-			{
-				redirect('success.php');	
-			}
-			}
+		}
 	?>
 </head>
 <body>
@@ -55,7 +85,6 @@
 
 	<div id="mainBlock">
 		<form method="post" name="myform" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-			<p id="welcomeMessage">Welcome <?php echo $_SESSION["sessionUsername"] ?> </p>
 			<p> Give your Feedback 
 				<input type="radio" name="rating" value="5">5
 				<input type="radio" name="rating" value="4">4
@@ -67,6 +96,6 @@
 		</form>
 	</div>
 	<!-- <div align="center" id="submitButton"><input type="submit" name=""></div> -->
-
+	<div class="footer">User Logged In: <?php echo $_SESSION["sessionUsername"] ?> </div>
 </body>
 </html>

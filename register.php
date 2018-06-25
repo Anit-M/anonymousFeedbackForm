@@ -144,18 +144,15 @@
     	if($userErrFlag == 0 and $confirmPassErrFlg == 0 and $passErrFlag == 0 and $rollErrFlag == 0 and $emailErrFlag == 0 )
     	{
 			$hashedPass = password_hash($password, PASSWORD_DEFAULT);
-    		$sqlQuery = "INSERT INTO userinfo(username,rollno,email,password) VALUES ('".$userID."','".$rollno."','".$email."','".$hashedPass."')";
-    		if(mysqli_query($conn,$sqlQuery))
+    		$sqlQuery = "INSERT INTO userinfo(username,rollno,email,password) VALUES ('".$userID."','".$rollno."','".$email."','".$hashedPass."');";
+    		$sqlQuery .= "UPDATE rollvalidity SET flag=1 WHERE rollno='$rollno'";
+    		if(! mysqli_multi_query($conn,$sqlQuery))
     		{
-    			$flagQuery = "UPDATE rollvalidity SET flag=1 WHERE rollno='$rollno'";
-    			if(mysqli_query($conn,$flagQuery))
-    			{
-    				redirect("login.php");
-    			}
-    			else
-    			{
-    				echo "Error while registering";
-    			}
+    			echo "Error while registering";
+    		}
+    		else
+    		{
+    			redirect('login.php');
     		}
     	}
 	}
