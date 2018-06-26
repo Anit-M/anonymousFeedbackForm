@@ -1,8 +1,28 @@
+<?php
+	session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title></title>
 	<link rel="stylesheet" type="text/css" href="successRegistration.css">
+	<?php
+		function redirect($url) 
+		{
+		    ob_start();
+		    header('Location: '.$url);
+		    ob_end_flush();
+		    die();
+		}
+		if($_SESSION["registerFormSubmitted"] != "T") 
+		{	
+			redirect('login.php');
+		}
+		else
+		{
+			$_SESSION["registerFormSubmitted"] = "";
+		}
+	?>
 </head>
 <body>
 	<div  id="headBlock">

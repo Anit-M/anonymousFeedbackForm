@@ -1,3 +1,6 @@
+<?php
+	session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -152,6 +155,7 @@
     		}
     		else
     		{
+    			$_SESSION["registerFormSubmitted"] != "T";
     			redirect('successRegistration.php');
     		}
     	}

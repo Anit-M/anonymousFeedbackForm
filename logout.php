@@ -8,6 +8,8 @@
 	    die();
 	}
 	session_destroy();
-	unset($_SESSION["sessionUsername"]);
+	$_SESSION["registerFormSubmitted"] = "";
+	$_SESSION["formSubmitted"] = "";
+	$_SESSION["sessionUsername"] = "";
 	redirect('login.php');
 ?>

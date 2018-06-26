@@ -71,6 +71,7 @@
 								}
 								else
 								{
+									$_SESSION["formSubmitted"] = "T";
 									redirect('success.php');
 								}
 							}
