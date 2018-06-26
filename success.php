@@ -16,6 +16,10 @@
 		}
 		if($_SESSION["formSubmitted"] != "T") 
 		{	
+			session_destroy();
+			$_SESSION["registerFormSubmitted"] = "";
+			$_SESSION["formSubmitted"] = "";
+			$_SESSION["sessionUsername"] = "";
 			redirect('login.php');
 		}
 		else
@@ -26,7 +30,7 @@
 </head>
 <body>
 	<div  id="headBlock">
-		<h1 class="insName"> Successful Submission</h1>
+		<h1 class="insName"> Successful Submitted and Logged Out</h1>
 	</div>
 </body>
 </html>

@@ -16,6 +16,8 @@
 		}
 		if($_SESSION["registerFormSubmitted"] != "T") 
 		{	
+			session_destroy();
+			$_SESSION["registerFormSubmitted"] = "";
 			redirect('login.php');
 		}
 		else

@@ -155,7 +155,7 @@
     		}
     		else
     		{
-    			$_SESSION["registerFormSubmitted"] != "T";
+    			$_SESSION["registerFormSubmitted"] = "T";
     			redirect('successRegistration.php');
     		}
     	}
