@@ -228,7 +228,7 @@
 					<td class="errOutput"><?php echo $confirmPassErr; ?></td>
 				</tr>
 			</table>
-			<div align="center" id="submitButton"><input type="submit" name=""></div>
+			<div align="center" id="submitButton"><input type="submit" name="" value="Submit"></div>
 			<br />
 			<div align="center" style="color: #4C7FA6; font-weight: bold;">Already Registered User?<br /></div>
 			<div align="center" id="submitButton"><a href="login.php"><input type="button" name="" value="Login"></a> </div>
