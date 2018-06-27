@@ -18,7 +18,7 @@
 		}
 
 		$username = "";
-		$userErr = $passErr = $loginErr = "";
+		$userErr = $passErr = $loginErr = $roleErr = "";
 		$hashedPass = "";
 		if($_SERVER["REQUEST_METHOD"] == "POST")
 		{
@@ -36,6 +36,7 @@
 			$username = $_POST["userid"];
 			$_SESSION["sessionUsername"] = $username;
 			$userpass = $_POST["userpass"];
+			$role = $_POST["role"];
 			if(empty($username))
 			{
 				$userErr = "Username Cannot be empty";				
@@ -48,7 +49,11 @@
 			{
 				$passErr = "Password cannot be empty";
 			}
-			else
+			if($role == "choose")
+			{
+				$roleErr = "Choose a Role";
+			}
+			elseif($role == "student")
 			{
 				$query = "SELECT * FROM userinfo WHERE username='".$username."'";
 				$result = mysqli_query($conn, $query);
@@ -72,6 +77,11 @@
 					$passErr = "Wrong Password";
 				}
 			}
+			else
+			{
+				echo "Under Development";
+			}
+
 		}
 
 	?>
@@ -96,12 +106,23 @@
 					<td><input type="Password" name="userpass"></td>
 					<td class="errOutput"><?php echo $passErr; ?></td>
 				</tr>
+				<tr>
+					<td>Select Role</td>
+					<td>
+						<select id="selectBox" name="role">
+							<option value="choose" selected="selected">Choose...</option>
+							<option value="student">Student</option>
+							<option value="teacher">Teacher</option>
+						</select>
+					</td>
+					<td class="errOutput"><?php echo $roleErr; ?></td>
+				</tr>
 			</table>
 			<span><?php echo $loginErr; ?></span>
 			<div align="center" id="submitButton"><input type="submit" name=""></div>
 			<!-- <div id="passwordChange" align="center"> Forgot Password? <label> Reset Password</label></div> -->
 			<br />
-			<div align="center" style="color: #4C7FA6; font-weight: bold;">For Unregistered Users  <br /></div>
+			<div align="center" style="color: #4C7FA6; font-weight: bold;">For Unregistered Students  <br /></div>
 			<div align="center" id="submitButton"><a href="register.php"><input type="button" name="" value="Sign up"></a> </div>
 		</form>
 	</div>
