@@ -77,6 +77,7 @@ input[type=button] {
 }
 
 .footer {
+	font-family: Arial,Helvetica,sans-serif;
     position: fixed;
     left: 0;
     bottom: 0;

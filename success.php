@@ -17,9 +17,9 @@
 		if($_SESSION["formSubmitted"] != "T") 
 		{	
 			session_destroy();
-			$_SESSION["registerFormSubmitted"] = "";
 			$_SESSION["formSubmitted"] = "";
 			$_SESSION["sessionUsername"] = "";
+			session_unset();
 			redirect('login.php');
 		}
 		else

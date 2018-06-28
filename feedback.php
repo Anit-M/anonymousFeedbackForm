@@ -17,14 +17,22 @@
 		    die();
 		}
 
-	 	if(!isset($_SESSION["sessionUsername"]))
+	 	if(!isset($_SESSION["sessionUsername"]) or !isset($_SESSION['sessionRollno']))
 	 	{
 	 		redirect('login.php');
+	 	}
+	 	elseif(!isset($_SESSION["flag"]) or !isset($_SESSION["subjectCode"]))
+	 	{
+	 		redirect('chooseSubject.php');
 	 	}
 	 	else
 	 	{
 	 		if ($_SERVER["REQUEST_METHOD"] == "POST")
 			{
+				if($_SESSION["token"] != "T")
+				{
+					redirect('logout.php');
+				}
 				for ( $i = 1; $i <=10; $i++)
 				{
 					if(!isset($_POST["QA".$i]) and $i <= 6)
@@ -63,17 +71,25 @@
 					{
 						die("Server Error");
 					}
-
-					$sql = "INSERT INTO userfeedback(QA1,QA2,QA3,QA4,QA5,QA6,QB1,QB2,QB3,QB4,QB5,QB6,QB7,QB8,QB9,QB10,subjectCode) VALUES ('".$QA1."','".$QA2."','".$QA3."','".$QA4."','".$QA5."','".$QA6."','".$QB1."','".$QB2."','".$QB3."','".$QB4."','".$QB5."','".$QB6."','".$QB7."','".$QB8."','".$QB9."','".$QB10."','".$_SESSION["subjectCode"]."'";
-					$sql .= "UPDATE rollvalidity SET ".$_SESSION["flag"]." = 1 WHERE rollno='".$_SESSION['sessionRollno']."' ";
-					$result = mysqli_multi_query($conn, $sql);
-					if(!$result)
+					if($_SESSION["token"] != "T")
 					{
-						die('Failed');
+						redirect('logout.php');
 					}
 					else
 					{
-						redirect('success.php');
+						$sql = "  INSERT INTO userfeedback(QA1,QA2,QA3,QA4,QA5,QA6,QB1,QB2,QB3,QB4,QB5,QB6,QB7,QB8,QB9,QB10,subjectCode) VALUES ('".$QA1."','".$QA2."','".$QA3."','".$QA4."','".$QA5."','".$QA6."','".$QB1."','".$QB2."','".$QB3."','".$QB4."','".$QB5."','".$QB6."','".$QB7."','".$QB8."','".$QB9."','".$QB10."','".$_SESSION["subjectCode"]."');  ";
+						$sql .= "  UPDATE rollvalidity SET ".$_SESSION["flag"]." = 1 WHERE rollno='".$_SESSION["sessionRollno"]."'  ";
+						$result = mysqli_multi_query($conn, $sql);
+						if(!$result)
+						{
+							die('Failed');
+						}
+						else
+						{
+							$_SESSION["token"] = "";
+							$_SESSION["formSubmitted"] = "T";
+							redirect('success.php');
+						}
 					}
 				}
 			}

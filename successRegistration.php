@@ -18,6 +18,7 @@
 		{	
 			session_destroy();
 			$_SESSION["registerFormSubmitted"] = "";
+			session_unset();
 			redirect('login.php');
 		}
 		else

@@ -20,7 +20,7 @@
 		    die();
 		}
 
-	 	if(!isset($_SESSION["sessionUsername"]))
+	 	if(!isset($_SESSION["sessionUsername"]) or !isset($_SESSION["sessionRollno"]))
 	 	{
 	 		redirect('login.php');
 	 	}
@@ -40,6 +40,7 @@
 		$result = mysqli_query($conn, $sql);
 		$row = mysqli_fetch_assoc($result);
 		$stream = $row["stream"];
+		$_SESSION["stream"] = $stream;
 
 		$query = "SELECT subjectCode FROM {$stream}";
 		$resultQ = mysqli_query($conn, $query);
@@ -79,7 +80,8 @@
 					$subErr = "Feedback already submitted for this subject. Cannot be updated";
 				}
 				else
-				{
+				{	 
+					$_SESSION["token"] = "T";
 					redirect('feedback.php');
 				}
 			}
@@ -109,9 +111,9 @@
 							?>
 						</select>
 					</td>
-					<td class="errOutput"><?php echo $subErr; ?></td>
 				</tr>
 			</table>
+			<p align="center" class="errOutput"><?php echo $subErr; ?></p>
 			<div align="center" id="submitButton"><input type="submit" name="" value="Submit"></div>
 		</form>
 	</div>

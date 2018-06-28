@@ -99,9 +99,11 @@ input[type=button] {
 .errOutput{
 	font-size: 12px;
 	color: red;
+    font-weight: bold;
 }
 
 .footer {
+    font-family: Arial,Helvetica,sans-serif;
     position: fixed;
     left: 0;
     bottom: 0;
