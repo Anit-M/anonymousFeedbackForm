@@ -35,7 +35,6 @@
 			}
 
 			$username = $_POST["userid"];
-			$_SESSION["sessionUsername"] = $username;
 			$userpass = $_POST["userpass"];
 			$role = $_POST["role"];
 			if(empty($username))
@@ -56,6 +55,7 @@
 
 			if($userErrFlag == 0 and $passErrFlag == 0 and $roleErrFlag == 0)
 			{
+				$_SESSION["sessionUsername"] = $username;
 				if($role == "student")
 				{
 					$query = "SELECT * FROM userinfo WHERE username='".$username."'";
@@ -96,7 +96,7 @@
 						if(password_verify($userpass, $hashedPass))
 						{
 							$_SESSION["sessionTeachingCode"] = $teachingCode;
-							redirect("result.php");
+							redirect("subject.php");
 						}
 						else
 						{
