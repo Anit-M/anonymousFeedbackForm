@@ -29,14 +29,12 @@
 				{
 					if(!isset($_POST["QA".$i]) and $i <= 6)
 					{
-						echo "A".$i;
 						$errOutput = " Empty field(s)";
 						$errFlag = 1;
 						break;
 					}
 					if(!isset($_POST["QB".$i]))
 					{
-						echo "B".$i;
 						$errOutput = " Empty field(s)";
 						$errFlag = 1;
 						break;
@@ -46,18 +44,14 @@
 				
 				if ($errFlag == 0)
 				{
-					echo "Success";
 					for ( $i = 1; $i <=10; $i++)
 					{
 						if ( $i <= 6)
 						{
 							${"QA".$i} = $_POST["QA".$i];
-							echo ${"QA".$i};
 						}
 						${"QB".$i} = $_POST["QB".$i];
-						echo ${"QB".$i};
 					}
-					echo "Success(2)";
 
 					$servername = "localhost";
 					$user = "root";
@@ -69,44 +63,17 @@
 					{
 						die("Server Error");
 					}
-					$username = $_SESSION["sessionUsername"];
-					$query = "SELECT feedbackFlag FROM userinfo WHERE username='".$username."'";
-					$result = mysqli_query($conn, $query);
+
+					$sql = "INSERT INTO userfeedback(QA1,QA2,QA3,QA4,QA5,QA6,QB1,QB2,QB3,QB4,QB5,QB6,QB7,QB8,QB9,QB10,subjectCode) VALUES ('".$QA1."','".$QA2."','".$QA3."','".$QA4."','".$QA5."','".$QA6."','".$QB1."','".$QB2."','".$QB3."','".$QB4."','".$QB5."','".$QB6."','".$QB7."','".$QB8."','".$QB9."','".$QB10."','".$_SESSION["subjectCode"]."'";
+					$sql .= "UPDATE rollvalidity SET ".$_SESSION["flag"]." = 1 WHERE rollno='".$_SESSION['sessionRollno']."' ";
+					$result = mysqli_multi_query($conn, $sql);
 					if(!$result)
 					{
-						$errOutput = "Submission Failed";
+						die('Failed');
 					}
 					else
 					{
-						$rowcount = mysqli_num_rows($result);
-						if($rowcount !== 1)
-						{
-							$errOutput = "Submission failed";
-						}
-						else
-						{
-							$row = mysqli_fetch_assoc($result);
-							$flag = $row["feedbackFlag"];
-							if($flag == 0)
-							{
-								$sqlQuery = "INSERT INTO userfeedback(first) VALUES ('".$selectedRating."');";	
-								$sqlQuery .= "UPDATE userinfo SET feedbackFlag=1 WHERE username='".$username."'";
-								$result = mysqli_multi_query($conn, $sqlQuery);
-								if(!$result)
-								{
-									die('Error');
-								}
-								else
-								{
-									$_SESSION["formSubmitted"] = "T";
-									redirect('success.php');
-								}
-							}
-							else
-							{
-								$errOutput = "Feedback already submitted, cannot be updated.";
-							}
-						}
+						redirect('success.php');
 					}
 				}
 			}
@@ -251,8 +218,9 @@
 	<div class="clear"></div>
 	<div class="footer">
 		<form method="post" name="myform" action="logout.php">
-			User Logged In: <?php echo $_SESSION["sessionUsername"] ?> <br /> 
+			User Logged In: <?php echo $_SESSION["sessionUsername"] ?> <br />
 			<input type="submit" name="" value="Logout?">
+		</form>
 	</div>
 </body>
 </html>

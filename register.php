@@ -182,36 +182,6 @@
 					<td><input type="text" name="rollno" value="<?php echo $rollno ?>"></td>
 					<td class="errOutput"><?php echo $rollErr; ?></td>
 				</tr>
-			<!-- 	<tr>
-					<td>Course</td>
-					<td><select id="selectBox" name="course" form="">
-							<option value="" selected="selected">Choose...</option>
-							<option value="" selected="selected">Choose...</option>
-							<option value="0">B.E.</option>
-							<option value="1">M.E.</option>
-							<option value="2">Ph.D.</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>Semester</td>
-					<td><select id="selectBox" name="sem" form="">
-							<option value="" selected="selected">Choose...</option>
-							<option value="0">First </option>
-							<option value="1">Second</option>
-							<option value="2">Third</option>
-							<option value="3">Fourth</option>
-							<option value="4">Fifth</option>
-							<option value="5">Six</option>
-							<option value="6">Seventh</option>
-							<option value="7">Eighth</option>
-							<option value="8">Nine</option>
-							<option value="9">Ten</option>
-							<option value="10">Eleventh</option>
-							<option value="11">Twelveth</option>
-						</select>
-					</td>
-				</tr> -->
 				<tr>
 					<td>Email ID</td>
 					<td><input type="text" name="email" value="<?php echo $email ?>"></td>

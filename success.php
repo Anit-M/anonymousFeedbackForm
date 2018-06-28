@@ -5,7 +5,7 @@
 <html>
 <head>
 	<title></title>
-	<link rel="stylesheet" type="text/css" href="success.css">
+	<link rel="stylesheet" type="text/css" href="register.css">
 	<?php
 		function redirect($url) 
 		{

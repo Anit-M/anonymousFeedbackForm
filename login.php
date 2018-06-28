@@ -19,6 +19,7 @@
 
 		$username = "";
 		$userErr = $passErr = $loginErr = $roleErr = "";
+		$userErrFlag = $passErrFlag = $roleErrFlag = 0;
 		$hashedPass = "";
 		if($_SERVER["REQUEST_METHOD"] == "POST")
 		{
@@ -39,51 +40,54 @@
 			$role = $_POST["role"];
 			if(empty($username))
 			{
-				$userErr = "Username Cannot be empty";				
-			}
-			if(!preg_match('/^[a-zA-Z0-9]{5,}$/', $username))
-			{
-				$userErr = "Invalid User ID";
+				$userErr = "Username Cannot be empty";	
+				$userErrFlag = 1;			
 			}
 			if(empty($userpass))
 			{
 				$passErr = "Password cannot be empty";
+				$passErrFlag = 1;
 			}
 			if($role == "choose")
 			{
 				$roleErr = "Choose a Role";
+				$roleErrFlag = 1;
 			}
-			elseif($role == "student")
+
+			if($userErrFlag == 0 and $passErrFlag == 0 and $roleErrFlag == 0)
 			{
-				$query = "SELECT * FROM userinfo WHERE username='".$username."'";
-				$result = mysqli_query($conn, $query);
-				$rowcount = mysqli_num_rows($result);
-				
-				if($rowcount == 1)
+				if($role == "student")
 				{
-					$row = mysqli_fetch_assoc($result);
-					$hashedPass = $row["password"];
-				}
-				elseif($rowcount!== 1)
-				{
-					$userErr = "Either No users or Multiple Users with this User ID";
-				}
-				if(password_verify($userpass, $hashedPass))
-				{
-					redirect("feedback.php");
+					$query = "SELECT * FROM userinfo WHERE username='".$username."'";
+					$result = mysqli_query($conn, $query);
+					$rowcount = mysqli_num_rows($result);
+					
+					if($rowcount == 1)
+					{
+						$row = mysqli_fetch_assoc($result);
+						$rollno = $row["rollno"];
+						$hashedPass = $row["password"];
+						if(password_verify($userpass, $hashedPass))
+						{
+							$_SESSION["sessionRollno"] = $rollno;
+							redirect("chooseSubject.php");
+						}
+						else
+						{
+							$passErr = "Wrong Password";
+						}
+					}
+					elseif($rowcount!== 1)
+					{
+						$userErr = "Either No users or Multiple Users with this User ID";
+					}
 				}
 				else
 				{
-					$passErr = "Wrong Password";
+					echo "Cannot Access";
 				}
 			}
-			else
-			{
-				echo "Under Development";
-			}
-
 		}
-
 	?>
 </head>
 <body>
@@ -94,7 +98,7 @@
 		<h1 id="helpName"> Student Login {Feedback Form} </h1>
 	</div>
 	<div id="mainBlock">
-		<form action="login.php" method="POST">
+		<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
 			<table id="loginTable" align="center" cellpadding="5">
 				<tr>
 					<td>User ID</td>
