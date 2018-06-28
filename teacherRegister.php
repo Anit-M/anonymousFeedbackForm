@@ -70,7 +70,7 @@
 			if($rowcount == 1)
 			{
 				$row = mysqli_fetch_assoc($result);
-				$codeFlag = $row["teachingCode"];
+				$codeFlag = $row["flag"];
 				if($codeFlag != 0)
 				{
 					$codeErr = "User with Teaching Code already exists";

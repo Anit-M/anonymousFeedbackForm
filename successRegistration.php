@@ -14,22 +14,21 @@
 		    ob_end_flush();
 		    die();
 		}
-		if($_SESSION["registerFormSubmitted"] != "T") 
+		if($_SESSION["registerFormSubmitted"] == "T") 
 		{	
+			$_SESSION["registerFormSubmitted"] = "F";
 			session_destroy();
-			$_SESSION["registerFormSubmitted"] = "";
 			session_unset();
-			redirect('login.php');
 		}
 		else
 		{
-			$_SESSION["registerFormSubmitted"] = "";
+			redirect('login.php');
 		}
 	?>
 </head>
 <body>
 	<div  id="headBlock">
-		<h1 class="insName"> Successful Registered </h1>
+		<h1 class="insName"> Successfully Registered </h1>
 	</div>
 	<div align="center" id="submitButton"><a href="login.php"><input type="button" name="" value="Login"></a> </div>
 </body>

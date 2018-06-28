@@ -21,6 +21,7 @@
 
 		$query = "SELECT * FROM userfeedback WHERE subjectCode = '".$_SESSION["subjectCode"]."'"; 
 		$result = mysqli_query($conn, $query);
+		$rowcount = mysqli_num_rows($result);
 	?>
 </head>
 <body>
@@ -32,6 +33,7 @@
 	</div>
 
 	<div id="headBlock">
+		<p> Number of feedback(s) submitted for Subject Code: "<?php echo $_SESSION["subjectCode"] ?>" is <?php echo $rowcount ?> </p>
 		<table id="dataTable" align="center">
 			<tr>
 				<th>S.No</th>
@@ -53,10 +55,11 @@
 				<th>QII 10</th>
 			</tr>
 			<?php
+				$i = 1;
 				while($row = mysqli_fetch_assoc($result))
 				{ ?>
 					<tr>
-						<td><?php echo $row["id"]."." ?></td>
+						<td><?php echo $i."." ?></td>
 						<td><?php echo $row["QA1"] ?></td>
 						<td><?php echo $row["QA2"] ?></td>
 						<td><?php echo $row["QA3"] ?></td>
@@ -74,7 +77,9 @@
 						<td><?php echo $row["QB9"] ?></td>
 						<td><?php echo $row["QB10"] ?></td>
 					</tr>
-				<?php } 
+				<?php 
+					$i++;
+				} 
 			?>
 		</table>
 	</div>

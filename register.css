@@ -97,8 +97,9 @@ input[type=button] {
 }
 
 .errOutput{
-	font-size: 16px;
+	font-size: 12px;
 	color: red;
+	font-weight: bold;
 }
 
 input[placeholder] { 

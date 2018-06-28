@@ -79,7 +79,7 @@
 					}
 					elseif($rowcount!== 1)
 					{
-						$userErr = "Either No users or Multiple Users with this User ID";
+						$userErr = "ENo users or Multiple Users Found";
 					}
 				}
 				elseif($role == "teacher")
@@ -105,7 +105,7 @@
 					}
 					elseif($rowcount!== 1)
 					{
-						$userErr = "Either No users or Multiple Users with this User ID";
+						$userErr = "No users or Multiple Users Found";
 					}
 				}
 			}
