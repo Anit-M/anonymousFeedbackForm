@@ -82,9 +82,31 @@
 						$userErr = "Either No users or Multiple Users with this User ID";
 					}
 				}
-				else
+				elseif($role == "teacher")
 				{
-					echo "Cannot Access";
+					$query = "SELECT * FROM teacherinfo WHERE username='".$username."'";
+					$result = mysqli_query($conn, $query);
+					$rowcount = mysqli_num_rows($result);
+					
+					if($rowcount == 1)
+					{
+						$row = mysqli_fetch_assoc($result);
+						$teachingCode = $row["teachingCode"];
+						$hashedPass = $row["password"];
+						if(password_verify($userpass, $hashedPass))
+						{
+							$_SESSION["sessionTeachingCode"] = $teachingCode;
+							redirect("result.php");
+						}
+						else
+						{
+							$passErr = "Wrong Password";
+						}
+					}
+					elseif($rowcount!== 1)
+					{
+						$userErr = "Either No users or Multiple Users with this User ID";
+					}
 				}
 			}
 		}

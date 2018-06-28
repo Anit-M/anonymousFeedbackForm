@@ -116,3 +116,7 @@ input[type=button] {
     text-align: center;
     font-size: 18px;
 }
+
+input[placeholder] { 
+    text-overflow: ellipsis; 
+}

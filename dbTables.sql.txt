@@ -19,3 +19,13 @@
 
 5. be2cse
 	CREATE TABLE BE2CSE( sid int(11) NOT NULL AUTO_INCREMENT, subjectCode VARCHAR(10) NOT NULL, PRIMARY KEY (sid) )
+
+6. teacherinfo
+	CREATE TABLE teacherinfo ( id int(11) NOT NULL AUTO_INCREMENT, username varchar(100) NOT NULL, email varchar(100) NOT NULL, 
+	password varchar(100) NOT NULL, PRIMARY KEY (id), teachingCode varchar(10) ) 
+
+7. teachingCodes
+	CREATE TABLE teachingcodes( id int(11) NOT NULL AUTO_INCREMENT, teachingCode varchar(10) NOT NULL, subjectCode varchar(10) NOT NULL, PRIMARY KEY (id) )
+
+8. codevalidity
+	CREATE TABLE codevalidity(name varchar(50), teachingCode VARCHAR(10) PRIMARY KEY, flag TINYINT(1) DEFAULT 0)

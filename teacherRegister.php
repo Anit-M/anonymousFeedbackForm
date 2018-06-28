@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Register User</title>
+	<title>Register Teacher</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="register.css">
 	<?php
@@ -16,9 +16,9 @@
 	    die();
 	}
 
-	$userError=$rollErr=$emailErr=$passErr=$confirmPassErr="";
-	$userErrFlag=$rollErrFlag=$emailErrFlag=$passErrFlag=$confirmPassErrFlg=1;
-	$userID=$rollno=$email="";
+	$userError=$codeErr=$emailErr=$passErr=$confirmPassErr="";
+	$userErrFlag=$codeErrFlag=$emailErrFlag=$passErrFlag=$confirmPassErrFlg=1;
+	$userID=$code=$email="";
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST")
 	{	
@@ -44,7 +44,7 @@
   		}
 		else
 		{
-			$query = "SELECT * FROM userinfo WHERE username='$userID'";
+			$query = "SELECT * FROM teacherinfo WHERE username='$userID'";
 			$result = mysqli_query($conn,$query); 
 			if(mysqli_num_rows($result) > 0)
 			{
@@ -56,33 +56,33 @@
 			}
 		}
 	
-		$rollno = $_POST["rollno"];
-		if(empty($rollno))
+		$code= $_POST["code"];
+		if(empty($code))
 		{
-			$rollErr = "Roll No cannot be empty";
+			$codeErr = "Teaching Code cannot be empty";
 		}
 		else
 		{
-			$query = "SELECT * FROM rollvalidity WHERE rollno='".$rollno."'";
+			$query = "SELECT * FROM codevalidity WHERE teachingCode='".$code."'";
 			$result = mysqli_query($conn, $query);
 			$rowcount = mysqli_num_rows($result);
 
 			if($rowcount == 1)
 			{
 				$row = mysqli_fetch_assoc($result);
-				$rollFlag = $row["flag"];
-				if($rollFlag != 0)
+				$codeFlag = $row["teachingCode"];
+				if($codeFlag != 0)
 				{
-					$rollErr = "User with Roll no already exists";
+					$codeErr = "User with Teaching Code already exists";
 				}
-				elseif ($rollFlag == 0) 
+				elseif ($codeFlag == 0) 
 				{
-					$rollErrFlag = 0;
+					$codeErrFlag = 0;
 				}
 			}
 			else
 			{
-				$rollErr = "Invalid Roll no";
+				$codeErr = "Invalid Teaching Code";
 			}
 		}
 	
@@ -144,11 +144,11 @@
     		$confirmPassErrFlg = 0;
     	}
     	    	
-    	if($userErrFlag == 0 and $confirmPassErrFlg == 0 and $passErrFlag == 0 and $rollErrFlag == 0 and $emailErrFlag == 0 )
+    	if($userErrFlag == 0 and $confirmPassErrFlg == 0 and $passErrFlag == 0 and $codeErrFlag == 0 and $emailErrFlag == 0 )
     	{
 			$hashedPass = password_hash($password, PASSWORD_DEFAULT);
-    		$sqlQuery = "INSERT INTO userinfo(username,rollno,email,password) VALUES ('".$userID."','".$rollno."','".$email."','".$hashedPass."');";
-    		$sqlQuery .= "UPDATE rollvalidity SET flag=1 WHERE rollno='$rollno'";
+    		$sqlQuery = "INSERT INTO teacherinfo(username,teachingCode,email,password) VALUES ('".$userID."','".$code."','".$email."','".$hashedPass."');";
+    		$sqlQuery .= "UPDATE codevalidity SET flag=1 WHERE teachingCode='$code'";
     		if(! mysqli_multi_query($conn,$sqlQuery))
     		{
     			echo "Error while registering";
@@ -178,9 +178,9 @@
 					<td class="errOutput"><?php echo $userError; ?></td>
 				</tr>
 				<tr>
-					<td>Roll No</td>
-					<td><input type="text" name="rollno" value="<?php echo $rollno ?>"></td>
-					<td class="errOutput"><?php echo $rollErr; ?></td>
+					<td>Teaching Code</td>
+					<td><input type="text" name="code" placeholder="Contact Admin to get Code" value="<?php echo $code ?>"></td>
+					<td class="errOutput"><?php echo $codeErr; ?></td>
 				</tr>
 				<tr>
 					<td>Email ID</td>
